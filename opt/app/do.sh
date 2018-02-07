@@ -1,13 +1,9 @@
 rm -rf /root/rpmbuild
-cd /tmp
-wget http://nginx.org/packages/centos/7/SRPMS/nginx-1.12.2-1.el7_4.ngx.src.rpm
-rpm -ivh nginx-1.12.2-1.el7_4.ngx.src.rpm
-cd /root/rpmbuild/SOURCES/
 
-wget https://github.com/kvspb/nginx-auth-ldap/archive/master.tar.gz -O nginx-auth-ldap-master.tar.gz
-wget https://github.com/openresty/lua-nginx-module/archive/master.tar.gz -O lua-nginx-module-master.tar.gz
+rpm -ivh https://mirror.city-fan.org/ftp/contrib/yum-repo/city-fan.org-release-2-1.rhel7.noarch.rpm
+yum -y install rpm-build gcc zlib-devel openldap-devel krb5-devel libidn-devel libmetalink-devel libnghttp2-devel nghttp2 libpsl-devel libssh2-devel openssl-devel groff gnutls-utils openssh-clients openssh-server perl-interpreter perl-Digest-MD5 stunnel --enablerepo=city-fan.org
+curl -s https://mirror.city-fan.org/ftp/contrib/sysutils/Mirroring/curl-7.58.0-3.0.cf.rhel7.src.rpm -o /tmp/a.rpm
+rpmbuild --rebuild /tmp/a.rpm --without nss
 
-cd /root/rpmbuild/SPECS
-patch -p0 < /opt/app/nginx.diff
-rpmbuild -bb /root/rpmbuild/SPECS/nginx.spec
-cp /root/rpmbuild/RPMS/x86_64/nginx-1.12.2-1.el7_4.ngx.x86_64.rpm /opt/app
+cp /root/rpmbuild/RPMS/x86_64/curl-7.58.0-3.0.cf.rhel7.x86_64.rpm /opt/app
+cp /root/rpmbuild/RPMS/x86_64/libcurl-7.58.0-3.0.cf.rhel7.x86_64.rpm /opt/app
