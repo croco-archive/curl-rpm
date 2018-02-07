@@ -1,0 +1,27 @@
+#!/bin/bash
+
+REPO="curl-compile"
+TAG="0.1"
+
+if [ "$1" == "" ]; then
+    echo "usage([build|run|push])"
+    exit
+fi
+
+case "$1" in
+    "build" )
+        docker build --rm -t ${REPO}:${TAG} .
+        ;;
+
+    "run" )
+        docker run -it \
+            -v `pwd`/opt:/opt \
+            ${REPO}:${TAG} \
+            /bin/bash
+        ;;
+
+    "push" )
+        docker push ${REPO}:${TAG}
+        ;;
+
+esac
